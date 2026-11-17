@@ -2,6 +2,7 @@ import { Note, NoteCreate } from "@/types/note";
 import axios from "axios";
 
 interface FetchNotesParams {
+  tag?: string;
   query: string;
   page: number;
 }
@@ -18,11 +19,13 @@ const noteApi = axios.create({
 });
 
 export async function fetchNotes({
+  tag,
   query,
   page,
 }: FetchNotesParams): Promise<FetchNotesResponse> {
   const { data } = await noteApi.get<FetchNotesResponse>("/notes", {
     params: {
+      tag: tag,
       search: query,
       page: page,
       perPage: 12,

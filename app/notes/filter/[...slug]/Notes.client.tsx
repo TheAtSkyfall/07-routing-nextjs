@@ -13,7 +13,11 @@ import NoteForm from "@/components/NoteForm/NoteForm";
 import { useDebouncedCallback } from "use-debounce";
 import css from "./Notes.module.css";
 
-function NotesClient() {
+interface NotesClientProps {
+  tag: string | undefined;
+}
+
+function NotesClient({ tag }: NotesClientProps) {
   const [query, setQuery] = useState<string>("");
   const [searchValue, setSearchValue] = useState<string>("");
   const [page, setPage] = useState<number>(1);
@@ -25,8 +29,8 @@ function NotesClient() {
   }, 300);
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["notes", query, page],
-    queryFn: () => fetchNotes({ query, page }),
+    queryKey: ["notes", tag, query, page],
+    queryFn: () => fetchNotes({ tag, query, page }),
     placeholderData: (previousData) => previousData,
     refetchOnMount: false,
   });
